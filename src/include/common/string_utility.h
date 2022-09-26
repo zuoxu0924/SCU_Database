@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace cmudb {
+namespace scudb {
 class StringUtility {
 public:
   // trim from start (in place)
@@ -46,4 +46,4 @@ public:
     return elems;
   }
 };
-} // namespace cmudb
+} // namespace scudb

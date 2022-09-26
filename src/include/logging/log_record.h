@@ -30,7 +30,7 @@
 #include "common/config.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 // log record type
 enum class LogRecordType {
   INVALID = 0,
@@ -159,6 +159,6 @@ private:
   // case4: for new page opeartion
   page_id_t prev_page_id_ = INVALID_PAGE_ID;
   const static int HEADER_SIZE = 20;
-}; // namespace cmudb
+}; // namespace scudb
 
-} // namespace cmudb
+} // namespace scudb

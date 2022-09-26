@@ -15,7 +15,7 @@
 #include "common/rid.h"
 #include "concurrency/transaction.h"
 
-namespace cmudb {
+namespace scudb {
 
 class LockManager {
 
@@ -41,4 +41,4 @@ private:
   bool strict_2PL_;
 };
 
-} // namespace cmudb
+} // namespace scudb

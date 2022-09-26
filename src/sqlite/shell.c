@@ -7622,7 +7622,7 @@ int SQLITE_CDECL main(int argc, char **argv){
       printf("\033[0;1m"); // BOLD
       int i;
       for (i = 0; i < 32; i++) printf("*");
-      printf("\n** CMU 15-445/645 (Fall 2017) **\n");
+      printf("\n** SCUDB (Fall 2021) **\n");
       for (i = 0; i < 32; i++) printf("*");
       printf("\033[0;0m\n\n"); // UNBOLD
 

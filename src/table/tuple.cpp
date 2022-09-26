@@ -9,7 +9,7 @@
 #include "common/logger.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 Tuple::Tuple(std::vector<Value> values, Schema *schema) : allocated_(true) {
   assert((int)values.size() == schema->GetColumnCount());
@@ -136,4 +136,4 @@ void Tuple::DeserializeFrom(const char *storage) {
   this->allocated_ = true;
 }
 
-} // namespace cmudb
+} // namespace scudb

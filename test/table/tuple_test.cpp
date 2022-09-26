@@ -15,7 +15,7 @@
 #include "vtable/virtual_table.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 TEST(TupleTest, TableHeapTest) {
   // test1: parse create sql statement
   std::string createStmt =
@@ -61,4 +61,4 @@ TEST(TupleTest, TableHeapTest) {
   delete disk_manager;
 }
 
-} // namespace cmudb
+} // namespace scudb

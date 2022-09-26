@@ -13,7 +13,7 @@
 #include "common/rid.h"
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 
 class Tuple {
   friend class TablePage;
@@ -82,4 +82,4 @@ private:
   char *data_;
 };
 
-} // namespace cmudb
+} // namespace scudb

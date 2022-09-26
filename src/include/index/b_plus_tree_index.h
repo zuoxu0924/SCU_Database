@@ -11,7 +11,7 @@
 #include "index/b_plus_tree.h"
 #include "index/index.h"
 
-namespace cmudb {
+namespace scudb {
 
 #define BPLUSTREE_INDEX_TYPE BPlusTreeIndex<KeyType, ValueType, KeyComparator>
 
@@ -41,4 +41,4 @@ protected:
   BPlusTree<KeyType, ValueType, KeyComparator> container_;
 };
 
-} // namespace cmudb
+} // namespace scudb

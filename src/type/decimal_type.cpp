@@ -8,7 +8,7 @@
 #include "common/exception.h"
 #include "type/decimal_type.h"
 
-namespace cmudb {
+namespace scudb {
 #define DECIMAL_COMPARE_FUNC(OP)                                               \
   switch (right.GetTypeId()) {                                                 \
   case TypeId::TINYINT:                                                        \
@@ -332,4 +332,4 @@ Value DecimalType::DeserializeFrom(const char *storage) const {
 Value DecimalType::Copy(const Value &val) const {
   return Value(TypeId::DECIMAL, val.value_.decimal);
 }
-} // namespace cmudb
+} // namespace scudb

@@ -9,7 +9,7 @@
 #include "type/type.h"
 #include <cstring>
 
-namespace cmudb {
+namespace scudb {
 
 class type;
 
@@ -186,4 +186,4 @@ protected:
   // The data type
   TypeId type_id_;
 };
-} // namespace cmudb
+} // namespace scudb

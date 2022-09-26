@@ -4,7 +4,7 @@
 #pragma once
 #include "type/numeric_type.h"
 
-namespace cmudb {
+namespace scudb {
 class DecimalType : public NumericType {
 public:
   DecimalType();
@@ -53,4 +53,4 @@ public:
 private:
   Value OperateNull(const Value &left, const Value &right) const override;
 };
-} // namespace cmudb
+} // namespace scudb

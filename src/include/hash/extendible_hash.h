@@ -15,7 +15,7 @@
 
 #include "hash/hash_table.h"
 
-namespace cmudb {
+namespace scudb {
 
 template <typename K, typename V>
 class ExtendibleHash : public HashTable<K, V> {
@@ -36,4 +36,4 @@ public:
 private:
   // add your own member variables here
 };
-} // namespace cmudb
+} // namespace scudb

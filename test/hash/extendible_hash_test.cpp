@@ -7,7 +7,7 @@
 #include "hash/extendible_hash.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 TEST(ExtendibleHashTest, SampleTest) {
   // set leaf size as 2
@@ -102,4 +102,4 @@ TEST(ExtendibleHashTest, ConcurrentRemoveTest) {
   }
 }
 
-} // namespace cmudb
+} // namespace scudb

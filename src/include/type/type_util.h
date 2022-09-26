@@ -8,7 +8,7 @@
 
 #include "type/type.h"
 
-namespace cmudb {
+namespace scudb {
 /**
  * Type Utility Functions
  */
@@ -244,4 +244,4 @@ public:
 //    return (result);
 //  }
 };
-} // namespace cmudb
+} // namespace scudb

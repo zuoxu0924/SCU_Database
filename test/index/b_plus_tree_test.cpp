@@ -13,7 +13,7 @@
 #include "vtable/virtual_table.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 TEST(BPlusTreeTests, InsertTest1) {
   // create KeyComparator and index schema
@@ -390,4 +390,4 @@ TEST(BPlusTreeTests, ScaleTest) {
   remove("test.db");
   remove("test.log");
 }
-} // namespace cmudb
+} // namespace scudb

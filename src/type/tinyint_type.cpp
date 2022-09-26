@@ -8,7 +8,7 @@
 #include "common/exception.h"
 #include "type/tinyint_type.h"
 
-namespace cmudb {
+namespace scudb {
 #define TINYINT_COMPARE_FUNC(OP)                                               \
   switch (right.GetTypeId()) {                                                 \
   case TypeId::TINYINT:                                                        \
@@ -308,4 +308,4 @@ Value TinyintType::CastAs(const Value &val, const TypeId type_id) const {
   throw Exception("tinyint is not coercable to " +
                   Type::TypeIdToString(type_id));
 }
-} // namespace cmudb
+} // namespace scudb

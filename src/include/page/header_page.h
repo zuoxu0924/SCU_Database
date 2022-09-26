@@ -17,7 +17,7 @@
 
 #include <cstring>
 
-namespace cmudb {
+namespace scudb {
 
 class HeaderPage : public Page {
 public:
@@ -41,4 +41,4 @@ private:
 
   void SetRecordCount(int record_count);
 };
-} // namespace cmudb
+} // namespace scudb

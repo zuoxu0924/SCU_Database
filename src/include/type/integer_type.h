@@ -4,7 +4,7 @@
 #pragma once
 #include "type/integer_parent_type.h"
 
-namespace cmudb {
+namespace scudb {
 // An integer value of the common sizes.
 class IntegerType : public IntegerParentType {
 public:
@@ -51,4 +51,4 @@ protected:
 
   bool IsZero(const Value &val) const override;
 };
-} // namespace cmudb
+} // namespace scudb

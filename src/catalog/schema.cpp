@@ -8,7 +8,7 @@
 
 #include "catalog/schema.h"
 
-namespace cmudb {
+namespace scudb {
 
 // Construct schema from vector of Column
 Schema::Schema(const std::vector<Column> &columns) : tuple_is_inlined(true) {
@@ -95,4 +95,4 @@ bool Schema::operator==(const Schema &other) const {
 
 bool Schema::operator!=(const Schema &other) const { return !(*this == other); }
 
-} // namespace cmudb
+} // namespace scudb

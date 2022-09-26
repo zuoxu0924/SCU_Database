@@ -7,7 +7,7 @@
 
 // NOTE: when you running this test, make sure page size(config.h) is at least
 // 4096
-namespace cmudb {
+namespace scudb {
 
 TEST(HeaderPageTest, UnitTest) {
   DiskManager *disk_manager = new DiskManager("test.db");
@@ -55,4 +55,4 @@ TEST(HeaderPageTest, UnitTest) {
   remove("test.db");
   remove("test.log");
 }
-} // namespace cmudb
+} // namespace scudb

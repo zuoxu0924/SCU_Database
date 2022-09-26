@@ -7,7 +7,7 @@
 #include "type/type_util.h"
 #include "type/varlen_type.h"
 
-namespace cmudb {
+namespace scudb {
 #define VARLEN_COMPARE_FUNC(OP)                                                \
   const char *str1 = left.GetData();                                           \
   uint32_t len1 = GetLength(left) - 1;                                         \
@@ -258,4 +258,4 @@ Value VarlenType::CastAs(const Value &value, const TypeId type_id) const {
   }
   throw Exception("VARCHAR is not coercable to " + TypeIdToString(type_id));
 }
-} // namespace cmudb
+} // namespace scudb

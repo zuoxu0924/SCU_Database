@@ -5,7 +5,7 @@
 #include "common/exception.h"
 #include "type/numeric_type.h"
 
-namespace cmudb {
+namespace scudb {
 // An integer value of the common sizes.
 class IntegerParentType : public NumericType {
 public:
@@ -181,4 +181,4 @@ Value IntegerParentType::ModuloValue(const Value &left,
   }
   return Value(right.GetTypeId(), quot2);
 }
-} // namespace cmudb
+} // namespace scudb

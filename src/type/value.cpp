@@ -6,7 +6,7 @@
 #include "common/exception.h"
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 Value::Value(const Value &other) {
   type_id_ = other.type_id_;
   size_ = other.size_;
@@ -330,4 +330,4 @@ bool Value::CheckInteger() const {
   }
   return false;
 }
-} // namespace cmudb
+} // namespace scudb

@@ -24,7 +24,7 @@
 #include "buffer/buffer_pool_manager.h"
 #include "index/generic_key.h"
 
-namespace cmudb {
+namespace scudb {
 
 #define MappingType std::pair<KeyType, ValueType>
 
@@ -67,4 +67,4 @@ private:
   page_id_t page_id_;
 };
 
-} // namespace cmudb
+} // namespace scudb

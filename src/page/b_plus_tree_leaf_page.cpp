@@ -8,7 +8,7 @@
 #include "common/rid.h"
 #include "page/b_plus_tree_leaf_page.h"
 
-namespace cmudb {
+namespace scudb {
 
 /*****************************************************************************
  * HELPER METHODS AND UTILITIES
@@ -204,4 +204,4 @@ template class BPlusTreeLeafPage<GenericKey<32>, RID,
                                        GenericComparator<32>>;
 template class BPlusTreeLeafPage<GenericKey<64>, RID,
                                        GenericComparator<64>>;
-} // namespace cmudb
+} // namespace scudb

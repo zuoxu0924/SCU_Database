@@ -1,4 +1,4 @@
-# 15-445 Database Systems
+# SCU Database Systems
 # SQLite Project Source Code
 
 ### Build

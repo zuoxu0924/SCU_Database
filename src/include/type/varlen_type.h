@@ -4,7 +4,7 @@
 #pragma once
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 /* A varlen value is an abstract class representing all objects that have
  * variable length.
  * For simplicity, for valen_type we always set flag "inline" as true, which
@@ -54,4 +54,4 @@ public:
   // Create a copy of this value
   Value Copy(const Value &val) const override;
 };
-} // namespace cmudb
+} // namespace scudb

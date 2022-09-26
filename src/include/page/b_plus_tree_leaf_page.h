@@ -24,7 +24,7 @@
 
 #include "page/b_plus_tree_page.h"
 
-namespace cmudb {
+namespace scudb {
 #define B_PLUS_TREE_LEAF_PAGE_TYPE                                             \
   BPlusTreeLeafPage<KeyType, ValueType, KeyComparator>
 
@@ -70,4 +70,4 @@ private:
   page_id_t next_page_id_;
   MappingType array[0];
 };
-} // namespace cmudb
+} // namespace scudb

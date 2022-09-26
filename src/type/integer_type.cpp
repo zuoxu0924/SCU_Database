@@ -7,7 +7,7 @@
 
 #include "type/integer_type.h"
 
-namespace cmudb {
+namespace scudb {
 #define INT_COMPARE_FUNC(OP)                                                   \
   switch (right.GetTypeId()) {                                                 \
   case TypeId::TINYINT:                                                        \
@@ -311,4 +311,4 @@ Value IntegerType::CastAs(const Value &val, const TypeId type_id) const {
   throw Exception("Integer is not coercable to " +
                   Type::TypeIdToString(type_id));
 }
-} // namespace cmudb
+} // namespace scudb

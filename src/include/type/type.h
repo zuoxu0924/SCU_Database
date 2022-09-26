@@ -8,7 +8,7 @@
 
 #include "type/type_id.h"
 
-namespace cmudb {
+namespace scudb {
 
 class Value;
 
@@ -112,4 +112,4 @@ protected:
   // Singleton instances.
   static Type *kTypes[14];
 };
-} // namespace cmudb
+} // namespace scudb

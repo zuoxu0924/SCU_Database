@@ -5,7 +5,7 @@
 #include "logging/log_recovery.h"
 #include "page/table_page.h"
 
-namespace cmudb {
+namespace scudb {
 /*
  * deserialize a log record from log buffer
  * @return: true means deserialize succeed, otherwise can't deserialize cause
@@ -31,4 +31,4 @@ void LogRecovery::Redo() {}
  */
 void LogRecovery::Undo() {}
 
-} // namespace cmudb
+} // namespace scudb

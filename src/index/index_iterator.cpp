@@ -5,7 +5,7 @@
 
 #include "index/index_iterator.h"
 
-namespace cmudb {
+namespace scudb {
 
 /*
  * NOTE: you can change the destructor/constructor method here
@@ -23,4 +23,4 @@ template class IndexIterator<GenericKey<16>, RID, GenericComparator<16>>;
 template class IndexIterator<GenericKey<32>, RID, GenericComparator<32>>;
 template class IndexIterator<GenericKey<64>, RID, GenericComparator<64>>;
 
-} // namespace cmudb
+} // namespace scudb

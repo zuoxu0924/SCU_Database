@@ -1,6 +1,6 @@
 #include "buffer/buffer_pool_manager.h"
 
-namespace cmudb {
+namespace scudb {
 
 /*
  * BufferPoolManager Constructor
@@ -85,4 +85,4 @@ bool BufferPoolManager::DeletePage(page_id_t page_id) { return false; }
  * into page table. return nullptr if all the pages in pool are pinned
  */
 Page *BufferPoolManager::NewPage(page_id_t &page_id) { return nullptr; }
-} // namespace cmudb
+} // namespace scudb

@@ -11,7 +11,7 @@
 
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 // use a fixed schema to construct a random tuple
 Tuple ConstructTuple(Schema *schema) {
@@ -60,4 +60,4 @@ Tuple ConstructTuple(Schema *schema) {
   return Tuple(values, schema);
 }
 
-} // namespace cmudb
+} // namespace scudb

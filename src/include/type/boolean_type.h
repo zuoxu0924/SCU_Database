@@ -6,7 +6,7 @@
 #include "type/type.h"
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 // A boolean value isn't a real SQL type, but we treat it as one to keep
 // consistent in the expression subsystem.
 class BooleanType : public Type {
@@ -43,4 +43,4 @@ public:
 
   Value CastAs(const Value &val, const TypeId type_id) const override;
 };
-} // namespace cmudb
+} // namespace scudb

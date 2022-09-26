@@ -14,7 +14,7 @@
 #include "common/config.h"
 #include "common/rwmutex.h"
 
-namespace cmudb {
+namespace scudb {
 
 class Page {
   friend class BufferPoolManager;
@@ -48,4 +48,4 @@ private:
   RWMutex rwlatch_;
 };
 
-} // namespace cmudb
+} // namespace scudb

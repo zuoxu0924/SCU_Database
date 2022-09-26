@@ -7,7 +7,7 @@
 
 #include <cstdlib>
 
-namespace cmudb {
+namespace scudb {
 
 template <typename T> class Replacer {
 public:
@@ -19,4 +19,4 @@ public:
   virtual size_t Size() = 0;
 };
 
-} // namespace cmudb
+} // namespace scudb

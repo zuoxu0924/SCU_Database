@@ -11,7 +11,7 @@
 #include "type/value.h"
 #include "type/varlen_type.h"
 
-namespace cmudb {
+namespace scudb {
 
 Type *Type::kTypes[] = {
     new Type(TypeId::INVALID),
@@ -302,4 +302,4 @@ char *Type::GetData(char *storage __attribute__((unused))) {
   throw NotImplementedException("GetData not implemented");
 }
 
-} // namespace cmudb
+} // namespace scudb

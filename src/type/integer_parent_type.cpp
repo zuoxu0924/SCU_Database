@@ -6,7 +6,7 @@
 
 #include "type/integer_parent_type.h"
 
-namespace cmudb {
+namespace scudb {
 IntegerParentType::IntegerParentType(TypeId type) : NumericType(type) {}
 
 Value IntegerParentType::Min(const Value &left, const Value &right) const {
@@ -30,4 +30,4 @@ Value IntegerParentType::Max(const Value &left, const Value &right) const {
     return left.Copy();
   return right.Copy();
 }
-} // namespace cmudb
+} // namespace scudb

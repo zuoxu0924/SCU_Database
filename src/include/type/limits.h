@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <limits>
 
-namespace cmudb {
+namespace scudb {
 
 static const double DBL_LOWEST = std::numeric_limits<double>::lowest();
 static const double FLT_LOWEST = std::numeric_limits<float>::lowest();
@@ -48,4 +48,4 @@ static const uint32_t PELOTON_TEXT_MAX_LEN = 1000000000;
 
 // Objects (i.e., VARCHAR) with length prefix of -1 are NULL
 #define OBJECTLENGTH_NULL -1
-} // namespace cmudb
+} // namespace scudb

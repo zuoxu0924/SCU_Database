@@ -10,7 +10,7 @@
 #include <condition_variable>
 #include <mutex>
 
-namespace cmudb {
+namespace scudb {
 class RWMutex {
 
   typedef std::mutex mutex_t;
@@ -66,4 +66,4 @@ private:
   uint32_t reader_count_;
   bool writer_entered_;
 };
-} // namespace cmudb
+} // namespace scudb

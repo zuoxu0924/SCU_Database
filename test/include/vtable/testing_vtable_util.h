@@ -11,7 +11,7 @@
 #include "sqlite/sqlite3.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 // For printing result
 int ExecCallback(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -38,4 +38,4 @@ bool ExecSQL(sqlite3 *db, std::string sql) {
   return true;
 }
 
-} // namespace cmudb
+} // namespace scudb

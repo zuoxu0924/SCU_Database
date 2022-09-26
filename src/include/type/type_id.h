@@ -1,6 +1,6 @@
 #pragma once
 
-namespace cmudb {
+namespace scudb {
 // Every possible SQL type ID
 enum TypeId {
   INVALID = 0,
@@ -13,4 +13,4 @@ enum TypeId {
   VARCHAR,
   TIMESTAMP,
 };
-} // namespace cmudb
+} // namespace scudb

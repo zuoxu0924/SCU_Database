@@ -4,7 +4,7 @@
 
 #include "logging/log_manager.h"
 
-namespace cmudb {
+namespace scudb {
 /*
  * set ENABLE_LOGGING = true
  * Start a separate thread to execute flush to disk operation periodically
@@ -43,4 +43,4 @@ lsn_t LogManager::AppendLogRecord(LogRecord &log_record) {
   return INVALID_LSN;
 }
 
-} // namespace cmudb
+} // namespace scudb

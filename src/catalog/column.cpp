@@ -6,7 +6,7 @@
 
 #include "catalog/column.h"
 
-namespace cmudb {
+namespace scudb {
 
 void Column::SetLength(int32_t column_length) {
   // Set the column length based on whether it is inlined
@@ -47,4 +47,4 @@ std::string Column::ToString() const {
   return (os.str());
 }
 
-} // namespace cmudb
+} // namespace scudb

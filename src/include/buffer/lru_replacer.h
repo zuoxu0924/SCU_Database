@@ -12,7 +12,7 @@
 #include "buffer/replacer.h"
 #include "hash/extendible_hash.h"
 
-namespace cmudb {
+namespace scudb {
 
 template <typename T> class LRUReplacer : public Replacer<T> {
 public:
@@ -33,4 +33,4 @@ private:
   // add your member variables here
 };
 
-} // namespace cmudb
+} // namespace scudb

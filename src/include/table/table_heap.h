@@ -12,7 +12,7 @@
 #include "table/table_iterator.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 class TableHeap {
   friend class TableIterator;
@@ -62,4 +62,4 @@ private:
   page_id_t first_page_id_;
 };
 
-} // namespace cmudb
+} // namespace scudb

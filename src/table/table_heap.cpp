@@ -7,7 +7,7 @@
 #include "common/logger.h"
 #include "table/table_heap.h"
 
-namespace cmudb {
+namespace scudb {
 
 // open table
 TableHeap::TableHeap(BufferPoolManager *buffer_pool_manager,
@@ -176,4 +176,4 @@ TableIterator TableHeap::end() {
   return TableIterator(this, RID(INVALID_PAGE_ID, -1), nullptr);
 }
 
-} // namespace cmudb
+} // namespace scudb

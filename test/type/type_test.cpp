@@ -5,7 +5,7 @@
 #include "type/value.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 //===--------------------------------------------------------------------===//
 // Type Tests
 //===--------------------------------------------------------------------===//
@@ -76,4 +76,4 @@ TEST(TypeTests, TemplateTest) {
   BPlusTreePage<Value, Value> node;
   node.GetInfo(val1, val2);
 }
-} // namespace cmudb
+} // namespace scudb

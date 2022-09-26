@@ -16,7 +16,7 @@
 #include "logging/log_manager.h"
 #include "page/page.h"
 
-namespace cmudb {
+namespace scudb {
 class BufferPoolManager {
 public:
   BufferPoolManager(size_t pool_size, DiskManager *disk_manager,
@@ -44,4 +44,4 @@ private:
   std::list<Page *> *free_list_; // to find a free page for replacement
   std::mutex latch_;             // to protect shared data structure
 };
-} // namespace cmudb
+} // namespace scudb

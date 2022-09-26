@@ -28,7 +28,7 @@
 #include "page/page.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 class TablePage : public Page {
 public:
@@ -86,4 +86,4 @@ private:
   void SetTupleCount(int32_t tuple_count);
   int32_t GetFreeSpaceSize();
 };
-} // namespace cmudb
+} // namespace scudb

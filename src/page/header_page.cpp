@@ -6,7 +6,7 @@
 
 #include "page/header_page.h"
 
-namespace cmudb {
+namespace scudb {
 
 /**
  * Record related
@@ -93,4 +93,4 @@ int HeaderPage::FindRecord(const std::string &name) {
   }
   return -1;
 }
-} // namespace cmudb
+} // namespace scudb

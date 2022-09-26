@@ -20,7 +20,7 @@
 
 #include "page/b_plus_tree_page.h"
 
-namespace cmudb {
+namespace scudb {
 
 #define B_PLUS_TREE_INTERNAL_PAGE_TYPE                                         \
   BPlusTreeInternalPage<KeyType, ValueType, KeyComparator>
@@ -69,4 +69,4 @@ private:
                      BufferPoolManager *buffer_pool_manager);
   MappingType array[0];
 };
-} // namespace cmudb
+} // namespace scudb

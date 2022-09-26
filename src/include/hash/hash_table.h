@@ -6,7 +6,7 @@
 
 #pragma once
 
-namespace cmudb {
+namespace scudb {
 
 template <typename K, typename V> class HashTable {
 public:
@@ -18,4 +18,4 @@ public:
   virtual void Insert(const K &key, const V &value) = 0;
 };
 
-} // namespace cmudb
+} // namespace scudb

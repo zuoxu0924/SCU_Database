@@ -7,7 +7,7 @@
 #include "common/rwmutex.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 class Counter {
 public:

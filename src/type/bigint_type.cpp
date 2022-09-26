@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "type/bigint_type.h"
-namespace cmudb {
+namespace scudb {
 #define BIGINT_COMPARE_FUNC(OP)                                                \
   switch (right.GetTypeId()) {                                                 \
   case TypeId::TINYINT:                                                        \
@@ -312,4 +312,4 @@ Value BigintType::CastAs(const Value &val, const TypeId type_id) const {
   throw Exception("bigint is not coercable to " +
                   Type::TypeIdToString(type_id));
 }
-} // namespace cmudb
+} // namespace scudb

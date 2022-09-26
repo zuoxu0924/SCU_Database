@@ -12,7 +12,7 @@
 
 #include "type/type.h"
 
-namespace cmudb {
+namespace scudb {
 //===--------------------------------------------------------------------===//
 // Exception Types
 //===--------------------------------------------------------------------===//
@@ -341,4 +341,4 @@ public:
       : Exception(EXCEPTION_TYPE_CONNECTION, msg) {}
 };
 
-} // namespace cmudb
+} // namespace scudb

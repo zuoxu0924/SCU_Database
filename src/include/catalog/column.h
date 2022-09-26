@@ -9,7 +9,7 @@
 #include "common/exception.h"
 #include "type/type.h"
 
-namespace cmudb {
+namespace scudb {
 
 class Column {
   friend class Schema;
@@ -99,4 +99,4 @@ private:
   int32_t column_offset = -1;
 };
 
-} // namespace cmudb
+} // namespace scudb

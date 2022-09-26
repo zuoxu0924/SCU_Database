@@ -6,7 +6,7 @@
 
 #include "table/table_heap.h"
 
-namespace cmudb {
+namespace scudb {
 
 TableIterator::TableIterator(TableHeap *table_heap, RID rid, Transaction *txn)
     : table_heap_(table_heap), tuple_(new Tuple(rid)), txn_(txn) {
@@ -63,4 +63,4 @@ TableIterator TableIterator::operator++(int) {
   return clone;
 }
 
-} // namespace cmudb
+} // namespace scudb

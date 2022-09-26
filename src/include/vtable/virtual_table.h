@@ -14,7 +14,7 @@
 #include "table/tuple.h"
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 /* Helpers */
 Schema *ParseCreateStatement(const std::string &sql);
 
@@ -262,6 +262,6 @@ private:
   // flag to indicate which scan method is currently used
   bool is_index_scan_ = false;
   VirtualTable *virtual_table_;
-}; // namespace cmudb
+}; // namespace scudb
 
-} // namespace cmudb
+} // namespace scudb

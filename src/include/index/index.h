@@ -12,7 +12,7 @@
 #include "table/tuple.h"
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 
 /**
  * class IndexMetadata - Holds metadata of an index object
@@ -140,4 +140,4 @@ private:
   IndexMetadata *metadata_;
 };
 
-} // namespace cmudb
+} // namespace scudb

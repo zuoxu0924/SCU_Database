@@ -12,7 +12,7 @@
 #include "vtable/virtual_table.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 std::string usageMessage() {
   std::string message =
@@ -120,4 +120,4 @@ TEST(BptTreeTest, UnitTest) {
   remove("test.db");
   remove("test.log");
 }
-} // namespace cmudb
+} // namespace scudb

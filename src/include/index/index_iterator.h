@@ -5,7 +5,7 @@
 #pragma once
 #include "page/b_plus_tree_leaf_page.h"
 
-namespace cmudb {
+namespace scudb {
 
 #define INDEXITERATOR_TYPE                                                     \
   IndexIterator<KeyType, ValueType, KeyComparator>
@@ -27,4 +27,4 @@ private:
   // add your own private member variables here
 };
 
-} // namespace cmudb
+} // namespace scudb

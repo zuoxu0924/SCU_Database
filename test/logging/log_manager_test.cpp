@@ -7,7 +7,7 @@
 #include "vtable/virtual_table.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 TEST(LogManagerTest, BasicLogging) {
   StorageEngine *storage_engine = new StorageEngine("test.db");
@@ -124,4 +124,4 @@ TEST(LogManagerTest, RedoTestWithOneTxn) {
   remove("test.log");
 }
 
-} // namespace cmudb
+} // namespace scudb

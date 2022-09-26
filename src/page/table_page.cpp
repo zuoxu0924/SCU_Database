@@ -6,7 +6,7 @@
 
 #include "page/table_page.h"
 
-namespace cmudb {
+namespace scudb {
 /**
  * Header related
  */
@@ -383,4 +383,4 @@ void TablePage::SetTupleCount(int32_t tuple_count) {
 int32_t TablePage::GetFreeSpaceSize() {
   return GetFreeSpacePointer() - 24 - GetTupleCount() * 8;
 }
-} // namespace cmudb
+} // namespace scudb

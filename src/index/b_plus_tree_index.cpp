@@ -4,7 +4,7 @@
 
 #include "index/b_plus_tree_index.h"
 
-namespace cmudb {
+namespace scudb {
 /*
  * Constructor
  */
@@ -51,4 +51,4 @@ template class BPlusTreeIndex<GenericKey<16>, RID, GenericComparator<16>>;
 template class BPlusTreeIndex<GenericKey<32>, RID, GenericComparator<32>>;
 template class BPlusTreeIndex<GenericKey<64>, RID, GenericComparator<64>>;
 
-} // namespace cmudb
+} // namespace scudb

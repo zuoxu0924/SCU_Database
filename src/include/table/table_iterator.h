@@ -11,7 +11,7 @@
 #include "common/rid.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 class TableHeap;
 
@@ -45,4 +45,4 @@ private:
   Transaction *txn_;
 };
 
-} // namespace cmudb
+} // namespace scudb

@@ -3,7 +3,7 @@
  */
 #include "vtable/testing_vtable_util.h"
 
-namespace cmudb {
+namespace scudb {
 /** Load the virtual table extension
  *  Ref: https://sqlite.org/c3ref/load_extension.html
  */
@@ -44,4 +44,4 @@ TEST(VtableTest, CreateTest) {
   remove("vtable.db");
   return;
 }
-} // namespace cmudb
+} // namespace scudb

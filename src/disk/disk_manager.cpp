@@ -10,7 +10,7 @@
 #include "common/logger.h"
 #include "disk/disk_manager.h"
 
-namespace cmudb {
+namespace scudb {
 
 static char *buffer_used = nullptr;
 
@@ -189,4 +189,4 @@ int DiskManager::GetFileSize(const std::string &file_name) {
   return rc == 0 ? stat_buf.st_size : -1;
 }
 
-} // namespace cmudb
+} // namespace scudb

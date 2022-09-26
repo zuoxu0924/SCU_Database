@@ -7,7 +7,7 @@
 #include "concurrency/transaction_manager.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 
 /*
@@ -40,4 +40,4 @@ TEST(LockManagerTest, BasicTest) {
   t0.join();
   t1.join();
 }
-} // namespace cmudb
+} // namespace scudb

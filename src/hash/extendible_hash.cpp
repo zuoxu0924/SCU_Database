@@ -3,7 +3,7 @@
 #include "hash/extendible_hash.h"
 #include "page/page.h"
 
-namespace cmudb {
+namespace scudb {
 
 /*
  * constructor
@@ -77,4 +77,4 @@ template class ExtendibleHash<Page *, std::list<Page *>::iterator>;
 template class ExtendibleHash<int, std::string>;
 template class ExtendibleHash<int, std::list<int>::iterator>;
 template class ExtendibleHash<int, int>;
-} // namespace cmudb
+} // namespace scudb

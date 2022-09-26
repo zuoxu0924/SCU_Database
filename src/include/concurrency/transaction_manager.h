@@ -11,7 +11,7 @@
 #include "concurrency/lock_manager.h"
 #include "logging/log_manager.h"
 
-namespace cmudb {
+namespace scudb {
 class TransactionManager {
 public:
   TransactionManager(LockManager *lock_manager,
@@ -28,4 +28,4 @@ private:
   LogManager *log_manager_;
 };
 
-} // namespace cmudb
+} // namespace scudb

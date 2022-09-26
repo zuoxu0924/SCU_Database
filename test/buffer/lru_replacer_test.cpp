@@ -7,7 +7,7 @@
 #include "buffer/lru_replacer.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 TEST(LRUReplacerTest, SampleTest) {
   LRUReplacer<int> lru_replacer;
@@ -43,4 +43,4 @@ TEST(LRUReplacerTest, SampleTest) {
   EXPECT_EQ(1, value);
 }
 
-} // namespace cmudb
+} // namespace scudb

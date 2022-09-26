@@ -4,7 +4,7 @@
 
 #include "concurrency/lock_manager.h"
 
-namespace cmudb {
+namespace scudb {
 
 bool LockManager::LockShared(Transaction *txn, const RID &rid) {
   return false;
@@ -22,4 +22,4 @@ bool LockManager::Unlock(Transaction *txn, const RID &rid) {
   return false;
 }
 
-} // namespace cmudb
+} // namespace scudb

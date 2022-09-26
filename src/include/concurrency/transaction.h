@@ -15,7 +15,7 @@
 #include "page/page.h"
 #include "table/tuple.h"
 
-namespace cmudb {
+namespace scudb {
 
 /**
  * Transaction states:
@@ -124,4 +124,4 @@ private:
   // this set contains rid of exclusive-locked tuples by this transaction
   std::shared_ptr<std::unordered_set<RID>> exclusive_lock_set_;
 };
-} // namespace cmudb
+} // namespace scudb

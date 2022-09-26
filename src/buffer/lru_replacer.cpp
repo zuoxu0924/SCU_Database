@@ -4,7 +4,7 @@
 #include "buffer/lru_replacer.h"
 #include "page/page.h"
 
-namespace cmudb {
+namespace scudb {
 
 template <typename T> LRUReplacer<T>::LRUReplacer() {}
 
@@ -36,4 +36,4 @@ template class LRUReplacer<Page *>;
 // test only
 template class LRUReplacer<int>;
 
-} // namespace cmudb
+} // namespace scudb

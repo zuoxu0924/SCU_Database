@@ -7,7 +7,7 @@
 #include "buffer/buffer_pool_manager.h"
 #include "gtest/gtest.h"
 
-namespace cmudb {
+namespace scudb {
 
 TEST(BufferPoolManagerTest, SampleTest) {
   page_id_t temp_page_id;
@@ -48,4 +48,4 @@ TEST(BufferPoolManagerTest, SampleTest) {
   remove("test.db");
 }
 
-} // namespace cmudb
+} // namespace scudb

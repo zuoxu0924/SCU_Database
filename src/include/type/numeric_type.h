@@ -6,7 +6,7 @@
 
 #include "type/value.h"
 
-namespace cmudb {
+namespace scudb {
 // A numeric value is an abstract type representing a number. Numerics can be
 // either integral or non-integral (decimal), but must provide arithmetic
 // operations on its value.
@@ -32,4 +32,4 @@ protected:
     return x - std::trunc((double)x / (double)y) * y;
   }
 };
-} // namespace cmudb
+} // namespace scudb

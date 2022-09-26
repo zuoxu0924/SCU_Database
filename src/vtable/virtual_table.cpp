@@ -13,7 +13,7 @@
 #include "page/header_page.h"
 #include "vtable/virtual_table.h"
 
-namespace cmudb {
+namespace scudb {
 
 SQLITE_EXTENSION_INIT1
 
@@ -534,4 +534,4 @@ Index *ConstructIndex(IndexMetadata *metadata,
 
 Transaction *GetTransaction() { return global_transaction_; }
 
-} // namespace cmudb
+} // namespace scudb

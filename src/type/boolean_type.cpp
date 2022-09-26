@@ -5,7 +5,7 @@
 
 #include "type/boolean_type.h"
 
-namespace cmudb {
+namespace scudb {
 #define BOOLEAN_COMPARE_FUNC(OP)                                               \
   GetCmpBool(                                                                  \
       left.value_.boolean OP right.CastAs(TypeId::BOOLEAN).value_.boolean)
@@ -105,4 +105,4 @@ Value BooleanType::CastAs(const Value &val, const TypeId type_id) const {
   throw Exception("BOOLEAN is not coercable to " +
                   Type::TypeIdToString(type_id));
 }
-} // namespace cmudb
+} // namespace scudb

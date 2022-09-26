@@ -15,7 +15,7 @@
 
 #include "common/config.h"
 
-namespace cmudb {
+namespace scudb {
 
 class DiskManager {
 public:
@@ -50,4 +50,4 @@ private:
   std::future<void> *flush_log_f_;
 };
 
-} // namespace cmudb
+} // namespace scudb

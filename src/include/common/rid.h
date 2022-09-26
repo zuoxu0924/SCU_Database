@@ -9,7 +9,7 @@
 
 #include "common/config.h"
 
-namespace cmudb {
+namespace scudb {
 
 class RID {
 public:
@@ -55,11 +55,11 @@ private:
   int slot_num_; // logical offset from 0, 1...
 };
 
-} // namespace cmudb
+} // namespace scudb
 
 namespace std {
-template <> struct hash<cmudb::RID> {
-  size_t operator()(const cmudb::RID &obj) const {
+template <> struct hash<scudb::RID> {
+  size_t operator()(const scudb::RID &obj) const {
     return hash<int64_t>()(obj.Get());
   }
 };
