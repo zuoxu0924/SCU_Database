@@ -5,4 +5,4 @@ scu database 2022 for homework submission
 homework
 
 # 第一次作业
-homework/sql; 运行结果 homework/sql/result
+homework/sql; 运行结果 homework/sql/results
