@@ -14,6 +14,6 @@ scu database 2022 for homework submission
 ```
 Description: nine queries with sqlite3
 ```
->Position: /homework/sql 
+>Position: [/homework/sql](https://github.com/zuoxu0924/SCU_Database/tree/main/homework/sql) 
 >
->Screenshot pos: /homework/sql/results
+>Screenshot pos: [/homework/sql/results](https://github.com/zuoxu0924/SCU_Database/tree/main/homework/sql/results)
