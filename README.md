@@ -13,6 +13,6 @@ scu database 2022 for homework submission
 ### 1st time
 ```
 Description: nine queries with sqlite3
+```
 Position: /homework/sql
 Screenshot pos: /homework/sql/results
-```
