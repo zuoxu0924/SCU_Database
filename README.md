@@ -1,7 +1,7 @@
 # SCU_Database
 scu database 2022 for homework submission
 
-### personal information
+## personal information
 ```
 姓名：左旭
 学号：2020141010097
