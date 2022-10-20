@@ -6,10 +6,13 @@ scu database 2022 for homework submission
 姓名：左旭
 学号：2020141010097
 ```
-### storage of homework
+## storage of homework
 ```
 /homework
 ```
-
-# 第一次作业
-homework/sql; 运行结果 homework/sql/results
+### 1st time
+```
+Description: nine queries with sqlite3
+Position: /homework/sql
+Screenshot pos: /homework/sql/results
+```
