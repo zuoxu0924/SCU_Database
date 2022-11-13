@@ -11,6 +11,7 @@
 
 #include "buffer/replacer.h"
 #include "hash/extendible_hash.h"
+#include <unordered_map>
 
 namespace scudb {
 
@@ -31,6 +32,19 @@ public:
 
 private:
   // add your member variables here
+  struct node
+  {
+    node() {}
+    node(T val) : data(val) {}
+    T data;
+    node *prev = nullptr;
+    node *next = nullptr;
+  };
+  mutable std::mutex mtx; //insure thread safety
+  node* head; //head node
+  node* tail; //tail node
+  size_t pSize; //the number of pages
+  std::unordered_map<T, node*> pages;
 };
 
 } // namespace scudb
