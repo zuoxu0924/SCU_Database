@@ -15,10 +15,10 @@ ExtendibleHash<K, V>::ExtendibleHash(size_t size) :
     dict.push_back(std::make_shared<Bucket>(0, 0));
 }
 
-template<typename K, typename V>
-ExtendibleHash<K, V>::ExtendibleHash() {
-  ExtendibleHash(64);
-}
+//template<typename K, typename V>
+//ExtendibleHash<K, V>::ExtendibleHash() {
+//  ExtendibleHash(64);
+//}
 
 /*
  * helper function to calculate the hashing address of input key
@@ -47,12 +47,13 @@ int ExtendibleHash<K, V>::GetGlobalDepth() const {
  */
 template <typename K, typename V>
 int ExtendibleHash<K, V>::GetLocalDepth(int bucket_id) const {
-  // std::lock_guard<std::mutex> lck(mtx);
+  std::lock_guard<std::mutex> lck(mtx);
   if(dict[bucket_id]) {
     std::lock_guard<std::mutex> lck2(dict[bucket_id]->mtx);
-    if(dict[bucket_id]->records.size() != 0) {
-      return dict[bucket_id]->local_depth;
+    if(dict[bucket_id]->records.size() == 0) {
+      return -1;
     }
+    return dict[bucket_id]->local_depth;
   }
   return -1;
 }
@@ -72,10 +73,11 @@ int ExtendibleHash<K, V>::GetNumBuckets() const {
 template <typename K, typename V>
 bool ExtendibleHash<K, V>::Find(const K &key, V &value) {
   
-  std::lock_guard<std::mutex> lck(mtx);
-  size_t pos = HashKey(key) & ((1 << global_depth) - 1);
+  //std::lock_guard<std::mutex> lck(mtx);
+  //size_t pos = HashKey(key) & ((1 << global_depth) - 1);
   bool isFound = false;
-  // std::lock_guard<std::mutex> lck2(dict[pos]->mtx);
+  size_t pos = getId(key);
+  std::lock_guard<std::mutex> lck2(dict[pos]->mtx);
   //iterator没有迭代到最后就是找到了key对应的value
   if(dict[pos]) {
     if(dict[pos]->records.find(key) != dict[pos]->records.end()) {
@@ -94,16 +96,16 @@ bool ExtendibleHash<K, V>::Find(const K &key, V &value) {
 template <typename K, typename V>
 bool ExtendibleHash<K, V>::Remove(const K &key) {
 
-  std::lock_guard<std::mutex> lck(mtx);
-  size_t pos = HashKey(key) & ((1 << global_depth) - 1);
-
-  // std::lock_guard<std::mutex> lck2(dict[pos]->mtx);
+  //std::lock_guard<std::mutex> lck(mtx);
+  //size_t pos = HashKey(key) & ((1 << global_depth) - 1);
+  bool isRemoved = false;
+  size_t pos = getId(key);
+  std::lock_guard<std::mutex> lck2(dict[pos]->mtx);
   std::shared_ptr<Bucket> temp = dict[pos];
-  if(temp->records.find(key) == temp->records.end()) {
-    return false;
-  }
+  if(temp->records.find(key) == temp->records.end()) return isRemoved;
   temp->records.erase(key);
-  return true;
+  isRemoved = true;
+  return isRemoved;
 
 }
 
@@ -123,61 +125,52 @@ void ExtendibleHash<K, V>::Insert(const K &key, const V &value) {
   *   else
   *     split bucket & expand dictionary
   */
-  std::lock_guard<std::mutex> lck(mtx);
-  size_t pos = HashKey(key) & ((1 << global_depth) - 1);
-  auto bucket = dict[pos];
-  // std::lock_guard<std::mutex> lck2(bucket->mtx);
-  if(bucket->records.find(key) != bucket->records.end()) {
-        bucket->records[key] = value;
-        return;
-  }
-
-  bucket->records.insert({key, value});
-  
-  // std::lock_guard<std::mutex> lck3(mtx);
-  if(bucket->records.size() > bucket_size) {
-    auto oId = bucket->id_t;
-    auto lDepth = bucket->local_depth;
-    std::shared_ptr<Bucket> newBuc = split(bucket);
-
-    if(bucket->local_depth > global_depth) {
-      auto size = dict.size();
-      // auto mask = (1 << (bucket->local_depth - global_depth));
-      global_depth = bucket->local_depth;
-      dict.resize((int)pow(2, global_depth));
-
-      dict[bucket->id_t] = bucket;
-      dict[newBuc->id_t] = newBuc;
-
-      for(size_t i = 0; i < size; i++) {
-        if(dict[i] && i >= dict[i]->id_t) {
-          auto offset = 1 << dict[i]->local_depth;
-          for(size_t j = i + offset; j < dict.size(); j += offset) dict[j] = dict[i];
-        }
-      }
-    } else {
-      for(size_t i = oId; i < dict.size(); i += (1 << lDepth)) dict[i].reset();
-
-      dict[bucket->id_t] = bucket;
-      dict[newBuc->id_t] = newBuc;
-
-      auto offset = 1 << bucket->local_depth;
-      for(size_t i = bucket->id_t + offset; i < dict.size(); i += offset) dict[i] = bucket;
-      for(size_t i = newBuc->id_t + offset; i < dict.size(); i += offset) dict[i] = newBuc;
+  size_t pos = getId(key);
+  std::shared_ptr<Bucket> temp = dict[pos];
+  while (true) {
+    std::lock_guard<std::mutex> lck(temp->mtx);
+    if (temp->records.find(key) != temp->records.end() || temp->records.size() < bucket_size) {
+      temp->records[key] = value;
+      break;
     }
+    int mask = 1 << (temp->local_depth);
+    temp->local_depth++;
+    if (temp->local_depth > global_depth) {
+      size_t size = dict.size();
+      for (size_t i = 0; i < size; i++) {
+        dict.push_back(dict[i]);
+      }
+      global_depth++;
+    }
+    bucket_num++;
+    
+    size_t newPos = HashKey(temp->records.begin()->first) & ((1 << temp->local_depth) - 1);
+    std::shared_ptr<Bucket> newBucket = std::make_shared<Bucket>(newPos, temp->local_depth);
 
+    typename std::map<K, V>::iterator it;
+    for (it = temp->records.begin(); it != temp->records.end(); ) {
+      if (HashKey(it->first) & mask) {
+        newBucket->records[it->first] = it->second;
+        it = temp->records.erase(it);
+      } else it++;
+    }
+    for (size_t i = 0; i < dict.size(); i++) {
+      if (dict[i] == temp && (i & mask)) dict[i] = newBucket;
+    }
+    pos = getId(key);
+    temp = dict[pos];
   }
 
 }
 
-// template<typename K, typename V>
-// size_t ExtendibleHash<K, V>::getId(const K &key) const {
-//   std::lock_guard<std::mutex> lck(mtx);
-//   return HashKey(key) & ((1 << global_depth) - 1);
-// }
-
-
 template<typename K, typename V>
+size_t ExtendibleHash<K, V>::getId(const K &key) {
+  std::lock_guard<std::mutex> lck(mtx);
+  return HashKey(key) & ((1 << global_depth) - 1);
+}
+
+
+/*template<typename K, typename V>
 std::shared_ptr<typename ExtendibleHash<K, V>::Bucket> 
 ExtendibleHash<K, V>::split(std::shared_ptr<Bucket> &bucket){
   std::lock_guard<std::mutex> lck(bucket->mtx);
@@ -210,7 +203,7 @@ ExtendibleHash<K, V>::split(std::shared_ptr<Bucket> &bucket){
 
   return newBucket;
 }
-
+*/
 
 template class ExtendibleHash<page_id_t, Page *>;
 template class ExtendibleHash<Page *, std::list<Page *>::iterator>;
