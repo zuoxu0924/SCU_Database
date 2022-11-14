@@ -7,6 +7,16 @@
  * report that the PageId does not match any currently-buffered page.
  */
 
+/*
+ *可扩展哈希：
+ *   目录：目录以指针的形式存储桶的地址。
+ *       每次目录扩展发生时，都会为每个目录分配一个 ID，该 ID 可能会发生变化。
+ *   num_of_dict = 2 ^ GlobalDepth
+ *    桶：桶用于对实际数据进行哈希处理。
+ *    
+ *   overflow -> local depth == global depth -> bucket split & dict expand
+ *
+ */
 #pragma once
 
 #include <cstdlib>
@@ -27,7 +37,7 @@ class ExtendibleHash : public HashTable<K, V> {
 public:
   // constructor
   ExtendibleHash(size_t size=64);
-  ExtendibleHash();
+  //ExtendibleHash();
   // helper function to generate hash addressing
   size_t HashKey(const K &key);
   // helper function to get global & local depth
@@ -39,7 +49,7 @@ public:
   bool Find(const K &key, V &value) override;
   bool Remove(const K &key) override;
   void Insert(const K &key, const V &value) override;
-  // size_t getId(const K &key) const;
+  size_t getId(const K &key);
 
 private:
   struct Bucket{
@@ -54,7 +64,7 @@ private:
   int bucket_num; //the number of buckets
   std::vector<std::shared_ptr<Bucket>> dict;  //dictionary to store the address of bucket
   mutable std::mutex mtx; //mutex lock thread security
-  std::shared_ptr<Bucket> split(std::shared_ptr<Bucket> &bucket);  //split the bucket
+  //std::shared_ptr<Bucket> split(std::shared_ptr<Bucket> &bucket);  //split the bucket
 
 };
 } // namespace scudb
