@@ -53,11 +53,11 @@ public:
 
 private:
   struct Bucket{
-        Bucket(size_t id, int localdepth) : id_t(id), local_depth(localdepth) {}
-        size_t id_t = 0;
+        Bucket(int localdepth) : local_depth(localdepth) {}
+        //size_t id_t = 0;
         int local_depth = 0;
         std::map<K, V> records;
-        std::mutex mtx;
+        //std::mutex mtx;
   };
   size_t bucket_size; //size of bucket
   int global_depth; 
