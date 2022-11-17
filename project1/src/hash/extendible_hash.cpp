@@ -143,8 +143,8 @@ void ExtendibleHash<K, V>::Insert(const K &key, const V &value) {
     }
     int mask = 1 << temp->local_depth;
         
-    shared_ptr<Bucket> b1 = make_shared<Bucket>(temp->local_depth + 1);
-    shared_ptr<Bucket> b2 = make_shared<Bucket>(temp->local_depth + 1);
+    std::shared_ptr<Bucket> b1 = std::make_shared<Bucket>(temp->local_depth + 1);
+    std::shared_ptr<Bucket> b2 = std::make_shared<Bucket>(temp->local_depth + 1);
 
     for(auto record : temp->records) {
       size_t new_key = HashKey(record.first);
