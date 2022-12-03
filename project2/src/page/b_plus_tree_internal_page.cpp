@@ -18,7 +18,15 @@ namespace scudb {
  */
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::Init(page_id_t page_id,
-                                          page_id_t parent_id) {}
+                                          page_id_t parent_id) {
+	this->SetPageType(IndexPageType::INTERNAL_PAGE);	// set page type
+	this->SetSize(1);	// set current size
+	this->SetPageId(page_id);	// set page id
+	this->SetParentPageId(parent_id);	// set parent id
+	// set max page size
+	int _max_page_size = PAGE_SIZE - sizeof(BPlusTreeInternalPage) / sizeof(MappingType);
+	this->SetMaxSize(_max_page_size);
+}
 /*
  * Helper method to get/set the key associated with input "index"(a.k.a
  * array offset)
@@ -26,12 +34,19 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::Init(page_id_t page_id,
 INDEX_TEMPLATE_ARGUMENTS
 KeyType B_PLUS_TREE_INTERNAL_PAGE_TYPE::KeyAt(int index) const {
   // replace with your own code
-  KeyType key;
-  return key;
+  if(index < 0 || index > GetSize()) {	// index out of range 返回空
+	return {};
+  }
+//   返回对应键
+  return array[index].first;
 }
 
 INDEX_TEMPLATE_ARGUMENTS
-void B_PLUS_TREE_INTERNAL_PAGE_TYPE::SetKeyAt(int index, const KeyType &key) {}
+void B_PLUS_TREE_INTERNAL_PAGE_TYPE::SetKeyAt(int index, const KeyType &key) {
+	if(index >= 0 && index < GetSize()) {	// valid index then set "key"
+		array[index].first = key;
+	}
+}
 
 /*
  * Helper method to find and return array index(or offset), so that its value
@@ -39,7 +54,13 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::SetKeyAt(int index, const KeyType &key) {}
  */
 INDEX_TEMPLATE_ARGUMENTS
 int B_PLUS_TREE_INTERNAL_PAGE_TYPE::ValueIndex(const ValueType &value) const {
-  return 0;
+	for(int i = 0; i < GetSize(); i++) {
+		if(array[i].second == value) {
+			return i;
+		}
+	}
+	// 没找到则返回-1
+	return -1;
 }
 
 /*
@@ -47,8 +68,20 @@ int B_PLUS_TREE_INTERNAL_PAGE_TYPE::ValueIndex(const ValueType &value) const {
  * offset)
  */
 INDEX_TEMPLATE_ARGUMENTS
-ValueType B_PLUS_TREE_INTERNAL_PAGE_TYPE::ValueAt(int index) const { return 0; }
+ValueType B_PLUS_TREE_INTERNAL_PAGE_TYPE::ValueAt(int index) const {
+	if(index < 0 || index > GetSize()) {	// index out of range
+		return {};
+	}
+	// else return value at "index"
+	return array[index].second; 
+}
 
+INDEX_TEMPLATE_ARGUMENTS
+void BPlusTreeInternalPage<KeyType, ValueType, KeyComparator>::SetValueAt(int index, const ValueType &value) {
+	// 判断给定索引是否越界
+	assert(index >= 0 && index < GetSize());
+	array[index].second = value;
+}
 /*****************************************************************************
  * LOOKUP
  *****************************************************************************/
@@ -61,7 +94,18 @@ INDEX_TEMPLATE_ARGUMENTS
 ValueType
 B_PLUS_TREE_INTERNAL_PAGE_TYPE::Lookup(const KeyType &key,
                                        const KeyComparator &comparator) const {
-  return INVALID_PAGE_ID;
+	int left = 1;	//start with the second key
+	int right = GetSize();
+	
+	while(left < right) {	//binary search
+		int _mid = (right - left) / 2 + left;
+		if(comparator(array[_mid].first, key) == -1) {
+			left = _mid + 1;
+		} else {
+			right = _mid;
+		}
+	}
+	return array[left - 1].second;
 }
 
 /*****************************************************************************
@@ -76,7 +120,12 @@ B_PLUS_TREE_INTERNAL_PAGE_TYPE::Lookup(const KeyType &key,
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::PopulateNewRoot(
     const ValueType &old_value, const KeyType &new_key,
-    const ValueType &new_value) {}
+    const ValueType &new_value) {
+		array[0].second = old_value;
+		array[1].first = new_key;
+		array[1].first = new_value;
+		IncreaseSize(1);
+}
 /*
  * Insert new_key & new_value pair right after the pair with its value ==
  * old_value
@@ -86,7 +135,17 @@ INDEX_TEMPLATE_ARGUMENTS
 int B_PLUS_TREE_INTERNAL_PAGE_TYPE::InsertNodeAfter(
     const ValueType &old_value, const KeyType &new_key,
     const ValueType &new_value) {
-  return 0;
+		for(int i = GetSize(); i > 0; i--) {
+			if(array[i - 1].second == old_value) {
+				array[i] = {new_key, new_value};
+				break;
+			}
+			array[i].first = array[i - 1].first;
+			array[i].second = array[i - 1].second;
+		}
+		IncreaseSize(1);
+		// return:  new size after insertion
+		return GetSize();
 }
 
 /*****************************************************************************
@@ -98,11 +157,32 @@ int B_PLUS_TREE_INTERNAL_PAGE_TYPE::InsertNodeAfter(
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::MoveHalfTo(
     BPlusTreeInternalPage *recipient,
-    BufferPoolManager *buffer_pool_manager) {}
+    BufferPoolManager *buffer_pool_manager) {
+		auto _half = (GetSize() + 1) / 2;
+		recipient->CopyHalfFrom(array + GetSize() - _half, _half, buffer_pool_manager);
+		//更新子节点的父节点
+		for(int i = GetSize() - _half; i < GetSize(); i++) {
+			Page* page = buffer_pool_manager->FetchPage(ValueAt(i));
+			if(page == nullptr) {
+				throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+			}
+
+			BPlusTreeInternalPage* _child = reinterpret_cast<BPlusTreePage *>(page->GetData());
+			child->SetParentPageId(recipient->GetPageId());
+			buffer_pool_manager->UnpinPage(page->GetPageId(), true);
+		}
+		IncreaseSize(-1 * _half);
+}
 
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyHalfFrom(
-    MappingType *items, int size, BufferPoolManager *buffer_pool_manager) {}
+    MappingType *items, int size, BufferPoolManager *buffer_pool_manager) {
+		int _pos = GetSize();
+		for(int i = 0; i < size; i++) {
+			array[_pos + i] = *items++;
+		} 
+		IncreaseSize(size);
+}
 
 /*****************************************************************************
  * REMOVE
@@ -113,7 +193,12 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyHalfFrom(
  * NOTE: store key&value pair continuously after deletion
  */
 INDEX_TEMPLATE_ARGUMENTS
-void B_PLUS_TREE_INTERNAL_PAGE_TYPE::Remove(int index) {}
+void B_PLUS_TREE_INTERNAL_PAGE_TYPE::Remove(int index) {
+	for(int i = index; i < GetSize() - 1; i++) {
+		array[i] = array[i + 1];
+	}
+	IncreaseSize(-1);
+}
 
 /*
  * Remove the only key & value pair in internal page and return the value
@@ -121,7 +206,8 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::Remove(int index) {}
  */
 INDEX_TEMPLATE_ARGUMENTS
 ValueType B_PLUS_TREE_INTERNAL_PAGE_TYPE::RemoveAndReturnOnlyChild() {
-  return INVALID_PAGE_ID;
+	IncreaseSize(-1);
+	return ValueAt(0);
 }
 /*****************************************************************************
  * MERGE
@@ -133,11 +219,38 @@ ValueType B_PLUS_TREE_INTERNAL_PAGE_TYPE::RemoveAndReturnOnlyChild() {
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::MoveAllTo(
     BPlusTreeInternalPage *recipient, int index_in_parent,
-    BufferPoolManager *buffer_pool_manager) {}
+    BufferPoolManager *buffer_pool_manager) {
+		// Remove all
+		Page* _parent = buffer_pool_manager->FetchPage(this->GetParentPageId());
+		if(_parent == nullptr) {
+			throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+		}
+
+		BPlusTreeInternalPage* internal_page = reinterpret_cast<BPlusTreeInternalPage *>(_parent->GetData());
+		internal_page->SetValueAt(index_in_parent, recipient->GetPageId());
+		buffer_pool_manager->UnpinPage(_parent->GetPageId(), true);
+		recipient->CopyAllFrom(array, GetSize(), buffer_pool_manager);
+		// update
+		for(int i = 0; i < GetSize(); i++) {
+			auto *page = buffer_pool_manager->FetchPage(ValueAt(i));
+			if(page == nullptr) {
+				throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+			}
+			auto *_child = reinterpret_cast<BPlusTreePage *>(page->GetData());
+			_child->SetParentPageId(recipient->GetPageId());
+			buffer_pool_manager->UnpinPage(_child->GetPageId(), true);
+		}
+}
 
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyAllFrom(
-    MappingType *items, int size, BufferPoolManager *buffer_pool_manager) {}
+    MappingType *items, int size, BufferPoolManager *buffer_pool_manager) {
+		int _pos = GetSize();
+		for(int i = 0; i < size; i++) {
+			array[_pos + i] = *items++;
+		}
+		IncreaseSize(size);
+}
 
 /*****************************************************************************
  * REDISTRIBUTE
@@ -149,11 +262,38 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyAllFrom(
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::MoveFirstToEndOf(
     BPlusTreeInternalPage *recipient,
-    BufferPoolManager *buffer_pool_manager) {}
+    BufferPoolManager *buffer_pool_manager) {
+		page_id_t page_id = ValueAt(0);
+		MappingType pair{KeyAt(1), ValueAt(0)};
+		SetValueAt(0, ValueAt(1));
+		Remove(1);
+		recipient->CopyLastFrom(pair, buffer_pool_manager);
+
+		auto *page = buffer_pool_manager->FetchPage(page_id);
+		if(page == nullptr) {
+			throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+		}
+		auto *_child = reinterpret_cast<BPlusTreePage *>(page->GetData());
+		_child->SetParentPageId(recipient->GetPageId());
+		buffer_pool_manager->UnpinPage(page_id, true);
+}
 
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyLastFrom(
-    const MappingType &pair, BufferPoolManager *buffer_pool_manager) {}
+    const MappingType &pair, BufferPoolManager *buffer_pool_manager) {
+		auto *page = buffer_pool_manager->FetchPage(GetParentPageId());
+		if(page == nullptr) {
+			throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+		}
+		auto *_parent = reinterpret_cast<BPlusTreeInternalPage *>(page->GetData());
+		auto index = _parent->ValueAt(GetPageId());
+		auto _key = _parent->KeyAt(index + 1);
+		array[GetSize()] = {_key, pair.second};
+		IncreaseSize(1);
+		_parent->SetKeyAt(index + 1, pair.first);
+
+		buffer_pool_manager->UnpinPage(_parent->GetPageId(), true);
+}
 
 /*
  * Remove the last key & value pair from this page to head of "recipient"
@@ -162,12 +302,39 @@ void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyLastFrom(
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::MoveLastToFrontOf(
     BPlusTreeInternalPage *recipient, int parent_index,
-    BufferPoolManager *buffer_pool_manager) {}
+    BufferPoolManager *buffer_pool_manager) {
+		IncreaseSize(-1);
+		MappingType _pair = array[GetSize()];
+		page_id_t _child_pid = pair.second;
+		recipient->CopyFirstFrom(pair, parent_index, buffer_pool_manager);
+
+		auto *page = buffer_pool_manager->FetchPage(_child_pid);
+		if(page == nullptr) {
+			throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+		}
+
+		auto *_child = reinterpret_cast<BPlusTreeInternalPage *>(page->GetData());
+		_child->SetParentPageId(recipient->GetPageId());
+
+		buffer_pool_manager->UnpinPage(_child->GetPageId(), true);
+}
 
 INDEX_TEMPLATE_ARGUMENTS
 void B_PLUS_TREE_INTERNAL_PAGE_TYPE::CopyFirstFrom(
     const MappingType &pair, int parent_index,
-    BufferPoolManager *buffer_pool_manager) {}
+    BufferPoolManager *buffer_pool_manager) {
+		auto *page = buffer_pool_manager->FetchPage(GetParentPageId());
+		if(page == nullptr) {
+			throw Exception(EXCEPTION_TYPE_INVALID, "there are no unpinned pages...");
+		}
+		
+		auto *_parent = reinterpret_cast<BPlusTreeInternalPage *>(page->GetData());
+		auto _key = _parent->KeyAt(parent_index);
+		_parent->SetKeyAt(parent_index, pair.first);
+		InsertNodeAfter(array[0].second, _key, array[0].second);
+
+		buffer_pool_manager->UnpinPage(_parent->GetPageId(), true);
+}
 
 /*****************************************************************************
  * DEBUG
