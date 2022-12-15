@@ -36,7 +36,7 @@ public:
   int ValueIndex(const ValueType &value) const;
   ValueType ValueAt(int index) const;
   // 补充SetValueAt()函数
-  void SetValueAt(int index, const ValueType &value);
+//   void SetValueAt(int index, const ValueType &value);
 
   ValueType Lookup(const KeyType &key, const KeyComparator &comparator) const;
   void PopulateNewRoot(const ValueType &old_value, const KeyType &new_key,
